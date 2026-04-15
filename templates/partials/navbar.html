@@ -1,0 +1,78 @@
+{% load static %}
+<header class="sticky top-0 z-40 border-b border-gray-100 bg-white/95 shadow-[0_10px_28px_rgba(17,24,39,0.06)] backdrop-blur supports-[backdrop-filter]:bg-white/90">
+  <nav class="mx-auto max-w-7xl px-4 py-3">
+    <div class="flex items-center justify-between gap-3 lg:grid lg:grid-cols-[260px_1fr_auto] lg:items-center">
+    <a href="{% url 'products:home' %}" class="flex min-w-0 items-center gap-3 text-lg font-extrabold tracking-tight text-ink transition hover:text-spring sm:text-xl">
+      <img src="{% static 'images/logo/logo.jpg' %}" alt="Sai Supermart logo" class="h-10 w-10 rounded-xl object-cover shadow-soft">
+      <span class="truncate">Sai <span class="text-spring">Supermart</span></span>
+    </a>
+
+    <form action="{% url 'products:list' %}" method="get" class="hidden lg:block">
+      <label class="sr-only" for="site-search">Search products</label>
+      <div class="flex rounded-2xl border border-gray-200 bg-mist p-1 transition focus-within:border-spring focus-within:bg-white focus-within:shadow-soft">
+        <input id="site-search" name="q" placeholder="Search products..." class="min-w-0 flex-1 border-0 bg-transparent px-4 py-3 text-sm text-ink outline-none placeholder:text-muted">
+        <button class="rounded-xl bg-spring px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-springHover">Search</button>
+      </div>
+    </form>
+
+    <div class="hidden items-center justify-end gap-1 text-sm font-semibold text-muted lg:flex">
+      <a href="{% url 'products:list' %}" class="rounded-xl px-3 py-2 transition hover:bg-mist hover:text-ink">Products</a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'products:wishlist' %}" class="inline-flex items-center gap-2 rounded-xl px-3 py-2 transition hover:bg-mist hover:text-ink" aria-label="Wishlist">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0 2.6-2.1 4.72-4.2 6.43-1.45 1.18-2.92 2.17-4.8 3.82-1.88-1.65-3.35-2.64-4.8-3.82C5.1 12.97 3 10.85 3 8.25A4.25 4.25 0 0 1 10.4 5.4L12 7l1.6-1.6A4.25 4.25 0 0 1 21 8.25Z"/></svg>
+          <span class="hidden sm:inline">Wishlist</span>
+        </a>
+        <a href="{% url 'cart:detail' %}" class="inline-flex items-center gap-2 rounded-xl px-3 py-2 transition hover:bg-mist hover:text-ink" aria-label="Cart">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.5 5h2l2 10.5h9.75L20 8H7.1M9 19.5h.01M17 19.5h.01"/></svg>
+          <span class="hidden sm:inline">Cart</span>
+        </a>
+        <a href="{% url 'orders:history' %}" class="inline-flex items-center gap-2 rounded-xl px-3 py-2 transition hover:bg-mist hover:text-ink" aria-label="My Orders">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 3.75h12A1.25 1.25 0 0 1 19.25 5v14A1.25 1.25 0 0 1 18 20.25H6A1.25 1.25 0 0 1 4.75 19V5A1.25 1.25 0 0 1 6 3.75Zm2.5 4h7m-7 4h7m-7 4h4"/></svg>
+          <span>My Orders</span>
+        </a>
+        <a href="{% url 'accounts:profile' %}" class="inline-flex items-center gap-2 rounded-xl px-3 py-2 transition hover:bg-mist hover:text-ink" aria-label="Profile">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 7.5a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.25a7.5 7.5 0 0 1 15 0"/></svg>
+          <span class="hidden sm:inline">Profile</span>
+        </a>
+        <form method="post" action="{% url 'accounts:logout' %}" class="inline">{% csrf_token %}<button class="rounded-xl px-3 py-2 transition hover:bg-mist hover:text-ink">Logout</button></form>
+      {% else %}
+        <a href="{% url 'accounts:login' %}" class="inline-flex items-center gap-2 rounded-xl px-3 py-2 transition hover:bg-mist hover:text-ink">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 7.5a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.25a7.5 7.5 0 0 1 15 0"/></svg>
+          Login
+        </a>
+      {% endif %}
+    </div>
+    <div class="flex items-center gap-1 lg:hidden">
+      {% if user.is_authenticated %}
+        <a href="{% url 'cart:detail' %}" class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-mist text-ink transition hover:bg-green-50 hover:text-spring" aria-label="Cart">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.5 5h2l2 10.5h9.75L20 8H7.1M9 19.5h.01M17 19.5h.01"/></svg>
+        </a>
+      {% endif %}
+      <button type="button" data-menu-toggle class="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 bg-white text-ink transition hover:border-spring hover:text-spring" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+        <svg class="h-6 w-6 menu-open" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <svg class="hidden h-6 w-6 menu-close" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    </div>
+    <div id="mobile-menu" class="mobile-menu max-h-0 overflow-hidden opacity-0 transition-all duration-300 ease-out lg:hidden">
+      <div class="grid gap-3 pb-2 pt-4">
+        <form action="{% url 'products:list' %}" method="get">
+          <label class="sr-only" for="mobile-search">Search products</label>
+          <div class="flex rounded-2xl border border-gray-200 bg-mist p-1">
+            <input id="mobile-search" name="q" placeholder="Search products..." class="min-w-0 flex-1 border-0 bg-transparent px-4 py-3 text-sm text-ink outline-none placeholder:text-muted">
+            <button class="rounded-xl bg-spring px-4 py-2.5 text-sm font-semibold text-white">Search</button>
+          </div>
+        </form>
+        <a href="{% url 'products:list' %}" class="rounded-xl px-3 py-3 font-bold text-muted transition hover:bg-mist hover:text-ink">Products</a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'products:wishlist' %}" class="rounded-xl px-3 py-3 font-bold text-muted transition hover:bg-mist hover:text-ink">Wishlist</a>
+          <a href="{% url 'orders:history' %}" class="rounded-xl px-3 py-3 font-bold text-muted transition hover:bg-mist hover:text-ink">My Orders</a>
+          <a href="{% url 'accounts:profile' %}" class="rounded-xl px-3 py-3 font-bold text-muted transition hover:bg-mist hover:text-ink">Profile</a>
+          <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button class="w-full rounded-xl px-3 py-3 text-left font-bold text-muted transition hover:bg-mist hover:text-ink">Logout</button></form>
+        {% else %}
+          <a href="{% url 'accounts:login' %}" class="rounded-xl px-3 py-3 font-bold text-muted transition hover:bg-mist hover:text-ink">Login</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+</header>

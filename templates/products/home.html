@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %}Sai Supermart | Home{% endblock %}
+{% block content %}
+<section class="relative overflow-hidden rounded-2xl bg-mist shadow-soft">
+  <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1500&q=80" alt="Fresh vegetables and fruit at Sai Supermart" class="absolute inset-0 h-full w-full object-cover opacity-20">
+  <div class="relative grid gap-8 px-6 py-12 md:grid-cols-[1.05fr_.95fr] md:px-10 lg:px-14">
+    <div class="max-w-3xl">
+      <p class="mb-4 text-sm font-extrabold uppercase tracking-[0.18em] text-spring">Fresh mornings, easy baskets</p>
+      <h1 class="text-4xl font-extrabold leading-tight text-ink md:text-6xl">Spring-clean groceries for a brighter everyday cart.</h1>
+      <p class="mt-5 max-w-2xl text-lg leading-8 text-muted">Curated staples, crisp produce, soft savings, and cash on delivery in one calm shopping flow.</p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a href="{% url 'products:list' %}" class="rounded-2xl bg-spring px-6 py-3.5 text-center font-bold text-white shadow-soft transition hover:bg-springHover hover:shadow-lift">Shop fresh picks</a>
+        <a href="{% url 'products:list' %}?q=organic" class="rounded-2xl border border-gray-200 bg-white px-6 py-3.5 text-center font-bold text-ink transition hover:border-spring hover:text-spring">Explore organic</a>
+      </div>
+    </div>
+    <div class="grid content-center gap-4">
+      <div class="rounded-2xl bg-white/90 p-5 shadow-soft">
+        <p class="text-sm font-bold uppercase tracking-[0.16em] text-spring">Today</p>
+        <p class="mt-2 text-2xl font-extrabold text-ink">Handpicked produce and pantry heroes.</p>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div class="rounded-2xl bg-white/90 p-5 shadow-soft"><strong class="block text-ink">COD ready</strong><span class="mt-1 block text-sm text-muted">Pay after your order is confirmed.</span></div>
+        <div class="rounded-2xl bg-white/90 p-5 shadow-soft"><strong class="block text-ink">Tracked orders</strong><span class="mt-1 block text-sm text-muted">Placed to delivered, all in profile.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mt-12">
+  <div class="flex items-end justify-between gap-4">
+    <div>
+      <p class="text-sm font-bold uppercase tracking-[0.16em] text-spring">Browse by mood</p>
+      <h2 class="mt-2 text-3xl font-extrabold text-ink">Categories</h2>
+    </div>
+  </div>
+  <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    {% for category in categories %}
+      <a href="{% url 'products:list' %}?category={{ category.slug }}" class="spring-card rounded-2xl border border-gray-100 bg-white p-6 shadow-soft hover:border-spring">
+        <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-green-50 text-sm font-extrabold text-spring">{{ forloop.counter }}</span>
+        <span class="mt-5 block text-lg font-extrabold text-ink">{{ category.name }}</span>
+        <p class="mt-2 text-sm leading-6 text-muted">{{ category.description }}</p>
+      </a>
+    {% empty %}
+      <p class="text-muted">Categories will appear after products are added.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="mt-12 rounded-2xl bg-lemon p-6 shadow-soft md:p-8">
+  <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+    <div>
+      <p class="text-sm font-bold uppercase tracking-[0.16em] text-spring">Soft savings</p>
+      <h2 class="mt-2 text-3xl font-extrabold text-ink">Launch Offers</h2>
+      <p class="mt-2 text-muted">Use SAI10 above Rs. 499 or SAVE50 above Rs. 999.</p>
+    </div>
+    <a href="{% url 'products:list' %}" class="rounded-2xl bg-white px-5 py-3 text-center font-bold text-ink shadow-soft transition hover:text-spring">Shop offers</a>
+  </div>
+</section>
+
+<section class="mt-12">
+  <p class="text-sm font-bold uppercase tracking-[0.16em] text-spring">Top shelf</p>
+  <h2 class="mt-2 text-3xl font-extrabold text-ink">Featured Products</h2>
+  <div class="mt-5 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+    {% for product in featured_products %}
+      {% include 'products/_card.html' with product=product %}
+    {% empty %}
+      <p class="text-muted">Featured products are ready to be added in admin.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

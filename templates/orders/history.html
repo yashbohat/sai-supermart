@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Orders | Sai Supermart{% endblock %}
+{% block content %}
+<p class="text-sm font-bold uppercase tracking-[0.18em] text-spring">Track every basket</p>
+<h1 class="mt-2 text-3xl font-extrabold text-ink sm:text-4xl">My Orders</h1>
+<div class="mt-6 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-soft">
+  {% for order in orders %}
+    <article class="border-b border-gray-100 p-4 last:border-b-0 sm:p-5">
+      <div class="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
+        <div class="grid gap-3 sm:grid-cols-4 sm:items-center">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-[0.14em] text-muted">Order ID</p>
+            <p class="mt-1 font-extrabold text-ink">#{{ order.pk }}</p>
+          </div>
+          <div>
+            <p class="text-xs font-bold uppercase tracking-[0.14em] text-muted">Date</p>
+            <p class="mt-1 font-semibold text-ink">{{ order.created_at|date:"M d, Y" }}</p>
+          </div>
+          <div>
+            <p class="text-xs font-bold uppercase tracking-[0.14em] text-muted">Status</p>
+            <span class="mt-1 inline-flex rounded-full px-3 py-1 text-xs font-extrabold {% if order.status == order.STATUS_CANCELLED %}bg-red-50 text-red-600{% elif order.status == order.STATUS_DELIVERED %}bg-green-50 text-spring{% else %}bg-lemon text-ink{% endif %}">{{ order.get_status_display }}</span>
+          </div>
+          <div>
+            <p class="text-xs font-bold uppercase tracking-[0.14em] text-muted">Total</p>
+            <p class="mt-1 font-extrabold text-ink">Rs. {{ order.total }}</p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-2 sm:flex-row md:justify-end">
+          <a href="{% url 'orders:detail' order.pk %}" class="rounded-xl bg-spring px-4 py-2.5 text-center text-sm font-bold text-white transition hover:bg-springHover">View Details</a>
+          {% if order.can_cancel %}
+            <form method="post" action="{% url 'orders:cancel' order.pk %}">{% csrf_token %}
+              <button class="w-full rounded-xl border border-red-200 bg-white px-4 py-2.5 text-sm font-bold text-red-600 transition hover:bg-red-50">Cancel Order</button>
+            </form>
+          {% endif %}
+        </div>
+      </div>
+    </article>
+  {% empty %}
+    <p class="p-6 text-muted">No orders yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}

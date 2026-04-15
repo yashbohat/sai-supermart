@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Sign up | Sai Supermart{% endblock %}
+{% block content %}
+<section class="mx-auto max-w-lg rounded-lg border border-gray-100 bg-white p-6 shadow-soft sm:p-8">
+  <p class="text-sm font-bold uppercase tracking-[0.18em] text-spring">Start fresh</p>
+  <h1 class="mt-2 text-3xl font-extrabold text-ink">Create account</h1>
+  <p class="mt-2 text-sm text-muted">Use your name, email, and password to get started.</p>
+  <form method="post" class="mt-6 space-y-4">{% csrf_token %}
+    {{ form.as_p }}
+    <button class="w-full rounded-lg bg-spring px-5 py-3 font-bold text-white shadow-soft transition hover:bg-springHover hover:shadow-lift">Sign up</button>
+  </form>
+  <p class="mt-4 text-sm text-muted">Already have an account? <a class="font-bold text-spring" href="{% url 'accounts:login' %}">Login</a></p>
+</section>
+{% endblock %}

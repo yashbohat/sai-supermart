@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Products | Sai Supermart{% endblock %}
+{% block content %}
+<div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+  <div>
+    <p class="text-sm font-bold uppercase tracking-[0.18em] text-spring">Shop</p>
+    <h1 class="mt-2 text-4xl font-extrabold text-ink">Products</h1>
+    <p class="mt-2 text-muted">Fresh picks, staples, home care, and snacks in one clean basket.</p>
+  </div>
+  <form class="flex gap-2 rounded-2xl border border-gray-200 bg-mist p-1 shadow-soft" method="get">
+    <input name="q" value="{{ query }}" placeholder="Search products" class="min-w-0 border-0 bg-transparent px-4 py-3 text-ink outline-none placeholder:text-muted">
+    <button class="rounded-xl bg-spring px-5 py-3 font-bold text-white transition hover:bg-springHover">Search</button>
+  </form>
+</div>
+<div class="mt-6 flex flex-wrap gap-2">
+  <a href="{% url 'products:list' %}" class="rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-bold text-muted transition hover:border-spring hover:text-spring">All</a>
+  {% for category in categories %}
+    <a href="?category={{ category.slug }}" class="rounded-xl border border-gray-200 px-4 py-2 text-sm font-bold transition hover:border-spring hover:text-spring {% if category.slug == category_slug %}bg-spring text-white border-spring{% else %}bg-white text-muted{% endif %}">{{ category.name }}</a>
+  {% endfor %}
+</div>
+<div class="mt-6 grid grid-cols-2 gap-3 sm:mt-8 sm:gap-5 lg:grid-cols-4">
+  {% for product in products %}
+    {% include 'products/_card.html' with product=product %}
+  {% empty %}
+    <p class="text-muted">No products matched your search.</p>
+  {% endfor %}
+</div>
+{% endblock %}

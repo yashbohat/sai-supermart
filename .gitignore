@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual env
+venv/
+.env
+
+# DB
+db.sqlite3
+db.sqlite3-journal
+
+# Local junk
+.local/

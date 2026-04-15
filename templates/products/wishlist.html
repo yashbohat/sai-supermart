@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Wishlist | Sai Supermart{% endblock %}
+{% block content %}
+<p class="text-sm font-bold uppercase tracking-[0.18em] text-spring">Saved picks</p>
+<h1 class="mt-2 text-4xl font-extrabold text-ink">Wishlist</h1>
+<p class="mt-2 text-muted">Keep your favorites ready for the next fresh basket.</p>
+<div class="mt-8 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+  {% for item in items %}
+    {% include 'products/_card.html' with product=item.product %}
+  {% empty %}
+    <p class="text-muted">Your wishlist is empty.</p>
+  {% endfor %}
+</div>
+{% endblock %}

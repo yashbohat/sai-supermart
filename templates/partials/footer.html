@@ -1,0 +1,35 @@
+<footer class="mt-16 border-t border-gray-100 bg-mist">
+  <div class="mx-auto grid max-w-7xl gap-8 px-4 py-12 text-sm text-muted sm:grid-cols-2 lg:grid-cols-4">
+    <section>
+      <h2 class="text-base font-extrabold text-ink">About</h2>
+      <p class="mt-3 leading-6">Sai Supermart - Your trusted online supermarket</p>
+    </section>
+    <section>
+      <h2 class="text-base font-extrabold text-ink">Quick Links</h2>
+      <div class="mt-3 grid gap-2">
+        <a class="transition hover:text-spring" href="{% url 'products:home' %}">Home</a>
+        <a class="transition hover:text-spring" href="{% url 'products:list' %}">Products</a>
+        <a class="transition hover:text-spring" href="{% url 'cart:detail' %}">Cart</a>
+        <a class="transition hover:text-spring" href="mailto:hello@saisupermart.test">Contact</a>
+      </div>
+    </section>
+    <section>
+      <h2 class="text-base font-extrabold text-ink">Categories</h2>
+      <div class="mt-3 grid gap-2">
+        <a class="transition hover:text-spring" href="{% url 'products:list' %}?category=staples">Staples</a>
+        <a class="transition hover:text-spring" href="{% url 'products:list' %}?category=snacks">Snacks</a>
+        <a class="transition hover:text-spring" href="{% url 'products:list' %}?category=home-care">Home Care</a>
+      </div>
+    </section>
+    <section>
+      <h2 class="text-base font-extrabold text-ink">Contact</h2>
+      <div class="mt-3 grid gap-2">
+        <a class="transition hover:text-spring" href="mailto:hello@saisupermart.test">hello@saisupermart.test</a>
+        <a class="transition hover:text-spring" href="tel:+910000000000">+91 00000 00000</a>
+      </div>
+    </section>
+  </div>
+  <div class="border-t border-gray-200/70 px-4 py-5 text-center text-sm font-semibold text-muted">
+    © 2026 Sai Supermart
+  </div>
+</footer>

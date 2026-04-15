@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Order #{{ order.pk }} | Sai Supermart{% endblock %}
+{% block content %}
+<section class="rounded-2xl border border-gray-100 bg-white p-5 shadow-soft sm:p-6">
+  <p class="text-sm font-bold uppercase tracking-[0.18em] text-spring">Tracking</p>
+  <div class="mt-2 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <h1 class="text-3xl font-extrabold text-ink sm:text-4xl">Order #{{ order.pk }}</h1>
+      <p class="mt-2 text-muted">{{ order.created_at|date:"M d, Y" }} - Total Rs. {{ order.total }}</p>
+    </div>
+    {% if order.can_cancel %}
+      <form method="post" action="{% url 'orders:cancel' order.pk %}">{% csrf_token %}
+        <button class="w-full rounded-xl border border-red-200 bg-white px-5 py-3 font-bold text-red-600 transition hover:bg-red-50 sm:w-auto">Cancel Order</button>
+      </form>
+    {% endif %}
+  </div>
+  <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+    {% for key,label in order.STATUS_CHOICES %}
+      <div class="rounded-2xl border p-4 text-sm font-bold {% if key == order.status %}border-spring bg-green-50 text-spring{% else %}border-gray-100 bg-mist text-muted{% endif %}">{{ label }}</div>
+    {% endfor %}
+  </div>
+  <div class="mt-8 space-y-3">
+    {% for item in order.items.all %}
+      <p class="flex justify-between gap-4 border-b border-gray-100 pb-3 text-muted"><span>{{ item.product_name }} x {{ item.quantity }}</span><span class="font-bold text-ink">Rs. {{ item.total }}</span></p>
+    {% endfor %}
+  </div>
+  <p class="mt-5 text-xl font-extrabold text-ink">Total: Rs. {{ order.total }}</p>
+  <a href="{% url 'orders:history' %}" class="mt-6 inline-flex rounded-xl bg-mist px-5 py-3 font-bold text-ink transition hover:bg-green-50 hover:text-spring">Back to My Orders</a>
+</section>
+{% endblock %}

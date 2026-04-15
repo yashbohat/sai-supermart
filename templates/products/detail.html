@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ product.name }} | Sai Supermart{% endblock %}
+{% block content %}
+<section class="grid gap-10 rounded-2xl bg-mist p-5 shadow-soft md:grid-cols-2 md:p-8">
+  <div class="flex aspect-square items-center justify-center overflow-hidden rounded-2xl bg-white text-muted shadow-soft">
+    {% if product.image %}
+      <img src="{{ product.image.url }}" alt="{{ product.name }}" class="h-full w-full object-contain p-6">
+    {% elif product.static_image_path %}
+      <img src="{% static product.static_image_path %}" alt="{{ product.name }}" class="h-full w-full object-contain p-6">
+    {% else %}
+      <div class="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-green-50 via-white to-yellow-50 px-6 text-center">
+        <span class="text-4xl font-extrabold text-spring">Fresh Pick</span>
+        <span class="mt-3 text-sm font-bold uppercase tracking-[0.2em] text-muted">Sai Supermart</span>
+      </div>
+    {% endif %}
+  </div>
+  <div class="self-center">
+    <p class="text-sm font-bold uppercase tracking-[0.18em] text-spring">{{ product.category.name }}</p>
+    <h1 class="mt-3 text-4xl font-extrabold leading-tight text-ink">{{ product.name }}</h1>
+    <div class="mt-5 flex flex-wrap items-center gap-3">
+      <p class="text-3xl font-extrabold text-ink">Rs. {{ product.current_price }}</p>
+      {% if product.sale_price %}
+        <p class="text-lg text-muted line-through">Rs. {{ product.price }}</p>
+        <span class="rounded-full bg-spring px-3 py-1 text-xs font-bold text-white">Spring deal</span>
+      {% endif %}
+    </div>
+    <p class="mt-5 leading-8 text-muted">{{ product.description }}</p>
+    <p class="mt-5 inline-flex rounded-full bg-white px-4 py-2 text-sm font-bold text-spring shadow-soft">{{ product.stock }} in stock</p>
+    <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+      <form method="post" action="{% url 'cart:add' product.id %}" class="flex flex-1 gap-3">{% csrf_token %}
+        <input name="quantity" type="number" min="1" value="1" class="w-24 rounded-xl border border-gray-200 bg-white px-3 py-3 text-ink shadow-soft outline-none focus:border-spring">
+        <button class="flex-1 rounded-xl bg-spring px-5 py-3 font-bold text-white shadow-soft transition hover:bg-springHover hover:shadow-lift">Add to cart</button>
+      </form>
+      <form method="post" action="{% url 'products:toggle_wishlist' product.id %}">{% csrf_token %}
+        <button class="w-full rounded-xl border border-gray-200 bg-white px-5 py-3 font-bold text-ink shadow-soft transition hover:border-spring hover:text-spring">{% if is_wishlisted %}Saved{% else %}Wishlist{% endif %}</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% if related %}
+<section class="mt-12">
+  <h2 class="text-3xl font-extrabold text-ink">Related picks</h2>
+  <div class="mt-5 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+    {% for product in related %}{% include 'products/_card.html' with product=product %}{% endfor %}
+  </div>
+</section>
+{% endif %}
+{% endblock %}
