@@ -4,9 +4,7 @@
 {% block content %}
 <section class="grid gap-10 rounded-2xl bg-mist p-5 shadow-soft md:grid-cols-2 md:p-8">
   <div class="flex aspect-square items-center justify-center overflow-hidden rounded-2xl bg-white text-muted shadow-soft">
-    {% if product.image %}
-      <img src="{{ product.image.url }}" alt="{{ product.name }}" class="h-full w-full object-contain p-6">
-    {% elif product.static_image_path %}
+    {% if product.static_image_path %}
       <img src="{% static product.static_image_path %}" alt="{{ product.name }}" class="h-full w-full object-contain p-6">
     {% else %}
       <div class="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-green-50 via-white to-yellow-50 px-6 text-center">

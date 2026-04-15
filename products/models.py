@@ -1,5 +1,9 @@
+from pathlib import Path
+
 from django.conf import settings
+from django.contrib.staticfiles import finders
 from django.db import models
+from django.template.defaultfilters import slugify
 from django.urls import reverse
 
 
@@ -41,24 +45,63 @@ class Product(models.Model):
 
     @property
     def static_image_path(self):
+        """
+        Resolves product images from the static catalog.
+        Media-backed ImageField files are intentionally bypassed in templates.
+        """
         filenames = {
-            'roasted-almond-mix-250g': 'roasted_almond_mix.jpg',
-            'premium-floor-cleaner-1l': 'floor_cleaner_1l.jpg',
+            # Staples
             'wheat-flour-5kg': 'wheat_flour_5kg.jpg',
             'sugar-1kg': 'sugar_1kg.jpg',
             'sunflower-oil-1l': 'sunflower_oil_1l.jpg',
+            'salt-1kg': 'salt_1kg.jpg',
+            # Snacks
             'potato-chips': 'potato_chips.jpg',
             'chocolate-biscuits': 'chocolate_biscuits.jpg',
+            'namkeen-mix': 'namkeen_mix.jpg',
+            'energy-bars': 'energy_bars.jpg',
+            # Beverages
             'orange-juice-1l': 'orange_juice_1l.jpg',
+            'cola-drink': 'cola_drink.jpg',
+            'green-tea-pack': 'green_tea_pack.jpg',
             'instant-coffee': 'instant_coffee.jpg',
+            # Home Care
             'detergent-powder': 'detergent_powder.jpg',
             'dishwash-liquid': 'dishwash_liquid.jpg',
+            'toilet-cleaner': 'toilet_cleaner.jpg',
+            'premium-floor-cleaner-1l': 'floor_cleaner_1l.jpg',
+            # Personal Care
             'shampoo-bottle': 'shampoo_bottle.jpg',
             'bath-soap-pack': 'bath_soap_pack.jpg',
             'toothpaste': 'toothpaste.jpg',
+            # Legacy/Additional
+            'roasted-almond-mix-250g': 'roasted_almond_mix.jpg',
         }
-        filename = filenames.get(self.slug)
-        return f'images/products/{filename}' if filename else ''
+        candidates = []
+
+        mapped = filenames.get(self.slug)
+        if mapped:
+            candidates.append(mapped)
+
+        if self.slug:
+            candidates.append(f'{self.slug.replace("-", "_")}.jpg')
+
+        if self.name:
+            candidates.append(f'{slugify(self.name).replace("-", "_")}.jpg')
+
+        if self.image:
+            candidates.append(Path(self.image.name).name)
+
+        seen = set()
+        for filename in candidates:
+            if not filename or filename in seen:
+                continue
+            seen.add(filename)
+            relative_path = f'images/products/{filename}'
+            if finders.find(relative_path):
+                return relative_path
+
+        return ''
 
     def get_absolute_url(self):
         return reverse('products:detail', kwargs={'slug': self.slug})

@@ -25,17 +25,17 @@ It allows users to browse products, manage carts, apply offers, and place orders
 
 ## ✨ Features
 
-- 🔐 Email-based authentication (Login / Signup)
-- 🛍️ Product catalog with categories and featured items
-- 🔎 Search and filtering system
-- ❤️ Wishlist support
-- 🛒 Smart cart with quantity updates
-- 🎁 Offer and coupon system
-- 💵 Cash on Delivery checkout
-- 📦 Order history + cancellation
-- 🧾 Stock management (auto update)
-- ⚙️ Admin panel for full control
-- 📱 Fully responsive UI (mobile-friendly)
+- 🔐 Email-based authentication (Login / Signup)  
+- 🛍️ Product catalog with categories and featured items  
+- 🔎 Search and filtering system  
+- ❤️ Wishlist support  
+- 🛒 Smart cart with quantity updates  
+- 🎁 Offer and coupon system  
+- 💵 Cash on Delivery checkout  
+- 📦 Order history + cancellation  
+- 🧾 Stock management (auto update)  
+- ⚙️ Admin panel for full control  
+- 📱 Fully responsive UI (mobile-friendly)  
 
 ---
 
@@ -59,10 +59,10 @@ cd sai_supermart
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
-Database Setup
+🗄️ Database Setup
 CREATE DATABASE sai_supermart_db;
 
-Then update credentials in settings.py
+Update database credentials in settings.py or .env.
 
 🚀 Run Project
 python manage.py migrate
@@ -102,3 +102,7 @@ Delivery restricted to PIN: 414605
 
 Yash Bohat
 Founder – NovaSyndicate Studios
+
+⭐ Final Note
+
+This project is built with a focus on real-world usability, clean UI, and practical backend logic.

@@ -12,3 +12,9 @@ db.sqlite3-journal
 
 # Local junk
 .local/
+
+# unwanted
+data.json
+server.err
+server.out
+staticfiles/
