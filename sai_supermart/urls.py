@@ -31,14 +31,3 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
-
-if not User.objects.filter(username='admin').exists():
-    User.objects.create_superuser(
-        username='admin',
-        email='admin@sai.com',
-        password='admin123'
-    )
