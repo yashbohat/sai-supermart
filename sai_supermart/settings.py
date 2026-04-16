@@ -109,18 +109,3 @@ DEFAULT_FROM_EMAIL = os.environ.get(
     'DEFAULT_FROM_EMAIL',
     'Sai Supermart <novasyndicate.studio@gmail.com>',
 )
-
-# TEMP ADMIN CREATE (REMOVE AFTER USE)
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
-
-try:
-    if not User.objects.filter(username='admin').exists():
-        User.objects.create_superuser(
-            username='admin',
-            email='admin@sai.com',
-            password='admin123'
-        )
-except Exception as e:
-    print("Admin creation skipped:", e)
